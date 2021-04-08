@@ -1,12 +1,22 @@
 import React, { useReducer } from "react";
 import GuestContext from "./GuestContext";
 import GuestReducer from "./GuestReducer";
-import { TOOGLE_FILTER, CLEAR_SEARCH, SEARCH_GUEST, ADD_GUEST } from "../types";
+import {
+  TOOGLE_FILTER,
+  CLEAR_SEARCH,
+  SEARCH_GUEST,
+  ADD_GUEST,
+  REMOVE_GUEST,
+  UPDATE_GUEST,
+  EDIT_GUEST,
+  CLEAR_GUEST,
+} from "../types";
 
 const GuestState = (props) => {
   const initialState = {
     filterGuest: false,
     search: null,
+    editableGuestState: null,
     guests: [
       {
         id: 1,
@@ -26,7 +36,7 @@ const GuestState = (props) => {
         id: 3,
         name: "Doe",
         phone: "999 222 1111",
-        dietary: "Pascatarian",
+        dietary: "Pesacatarian",
         isConfirmed: false,
       },
     ],
@@ -38,27 +48,48 @@ const GuestState = (props) => {
     guest.isConfirmed = false;
     dispatch({ type: ADD_GUEST, payload: guest });
   };
+  //removing guest action
+  const removeGuest = (id) => {
+    dispatch({ type: REMOVE_GUEST, payload: id });
+  };
+  //updating guest
+  const updateGuest = (guest) => {
+    dispatch({ type: UPDATE_GUEST, payload: guest });
+  };
+  //toggle guest
   const toogleFilterAction = () => {
     dispatch({ type: TOOGLE_FILTER });
   };
+  //searchguest
   const searchGuest = (guest) => {
     dispatch({ type: SEARCH_GUEST, payload: guest });
   };
   const clearSearch = () => {
     dispatch({ type: CLEAR_SEARCH });
   };
+  const editGuest = (guest) => {
+    dispatch({ type: EDIT_GUEST, payload: guest });
+  };
+  const clearEdit = () => {
+    dispatch({ type: CLEAR_GUEST });
+  };
   console.log(state.filterGuest);
   return (
     <GuestContext.Provider
-      //pass the value of init state and action
+      //passing the value of init state and action
       value={{
         guests: state.guests,
         filterGuest: state.filterGuest,
+        editableGuestState: state.editableGuestState,
         searchGuest,
         clearSearch,
         search: state.search,
         toogleFilterAction,
         addGuests,
+        removeGuest,
+        updateGuest,
+        editGuest,
+        clearEdit,
       }}
     >
       {props.children}

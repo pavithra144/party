@@ -1,14 +1,17 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import GuestContext from "../../context/guestContext/GuestContext";
 
 export const GuestForm = () => {
+  const { addGuests, editableGuestState, updateGuest, clearEdit } = useContext(
+    GuestContext
+  );
+
   const [addGuest, setAddGuest] = useState({
     name: "",
     phone: "",
     dietary: "Non-Veg",
   });
 
-  const { addGuests } = useContext(GuestContext);
   const { name, phone, dietary } = addGuest;
   const handleChange = (e) => {
     setAddGuest({
@@ -16,20 +19,40 @@ export const GuestForm = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  useEffect(() => {
+    if (editableGuestState !== null) {
+      setAddGuest(editableGuestState);
+    } else {
+      setAddGuest({
+        name: "",
+        phone: "",
+        dietary: "Non-Veg",
+      });
+    }
+  }, [editableGuestState]);
+  // if(editableGuestState !== null) {
+  //   console.log(editableGuestState)
+  // }
   const onFormSubmit = (e) => {
     e.preventDefault();
-    addGuests(addGuest) // usecontextdata (state variable) // action 
-    console.log(addGuest);
-    setAddGuest({
-      name: "",
-      phone: "",
-      dietary: "Non-Veg",
-    });
+
+    // here, we are editing the guest form and updating the existing form
+    //if editableGuestState is not null, then update the existing guest. else,addGuest
+    if (editableGuestState !== null) {
+      updateGuest(addGuest); //
+    } else {
+      addGuests(addGuest); // usecontextdata (state variable) // action
+      console.log(addGuest);
+      setAddGuest({
+        name: "",
+        phone: "",
+        dietary: "Non-Veg",
+      });
+    }
   };
   return (
     <div className="invite-section">
-      <h1>Invite someone</h1>
+      <h1>{editableGuestState !== null ? "Edit Guest" : "Invite someone"}</h1>
       <form onSubmit={onFormSubmit}>
         <input
           type="text"
@@ -64,6 +87,7 @@ export const GuestForm = () => {
               type="radio"
               name="dietary"
               value="Vegan"
+              checked={dietary === "Vegan"}
               onChange={handleChange}
             />
             <span className="checkmark"></span>
@@ -74,6 +98,7 @@ export const GuestForm = () => {
               type="radio"
               name="dietary"
               value="Pesacatarian"
+              checked={dietary === "Pesacatarian"}
               onChange={handleChange}
             />
             <span className="checkmark"></span>
