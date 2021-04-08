@@ -1,7 +1,11 @@
-import { TOOGLE_FILTER, CLEAR_SEARCH, SEARCH_GUEST } from "../types";
+import { TOOGLE_FILTER, CLEAR_SEARCH, SEARCH_GUEST, ADD_GUEST } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
+    case ADD_GUEST:
+      return {
+        ...state, guests: [...state.guests,   action.payload]
+      }
     case SEARCH_GUEST:
       const reg = new RegExp(`${action.payload}`, "gi");
       return {
