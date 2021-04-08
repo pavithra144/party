@@ -104,7 +104,11 @@ export const GuestForm = () => {
             <span className="checkmark"></span>
           </label>
         </div>
-        <input type="submit" value="Add Guest" className="btn"></input>
+        {editableGuestState !== null ? (
+          <input type="submit" value="Edit Guest" className="btn" />
+        ) : (
+          <input type="submit" value="Add Guest" className="btn"  />
+        )}
       </form>
     </div>
   );

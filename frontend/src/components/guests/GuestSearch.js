@@ -14,7 +14,7 @@ const GuestSearch = () => {
   return (
     <div>
       <input
-        isRef={searchValue}
+        isref={searchValue}
         type="text"
         className="search"
         onChange={searchHandler}
