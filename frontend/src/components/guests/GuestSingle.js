@@ -5,11 +5,11 @@ export const GuestSingle = ({ guest }) => {
   const { removeGuest, updateGuest, editGuest, clearEdit } = useContext(
     GuestContext
   );
-  const { id, name, phone, dietary, isConfirmed } = guest;
+  const { _id, name, phone, dietary, isConfirmed } = guest;
 
   //delete guest
   const handleRemove = () => {
-    removeGuest(id);
+    removeGuest(_id);
   };
   //edit guest
   const handleEditGuest = () => {

@@ -7,11 +7,23 @@ import {
   UPDATE_GUEST,
   EDIT_GUEST,
   CLEAR_GUEST,
+  GET_GUEST,
+  GUESTS_ERROR,
 } from "../types";
 
 export default (state, action) => {
   console.log(action.payload);
   switch (action.type) {
+    case GET_GUEST:
+      return {
+        ...state,
+        guests: action.payload,
+      };
+    case GUESTS_ERROR:
+      return {
+        ...state,
+        guests: [],
+      };
     case ADD_GUEST:
       return {
         ...state,
@@ -21,14 +33,14 @@ export default (state, action) => {
     case REMOVE_GUEST:
       return {
         ...state,
-        guests: state.guests.filter((guest) => guest.id !== action.payload), //checking if guests id(from initial state) is not equal to action.payload(user clicked guest)
+        guests: state.guests.filter((guest) => guest._id !== action.payload), //checking if guests id(from initial state) is not equal to action.payload(user clicked guest)
       };
 
     case UPDATE_GUEST:
       return {
         ...state,
         guests: state.guests.map((guest) =>
-          guest.id === action.payload.id ? action.payload : guest
+          guest._id === action.payload._id ? action.payload : guest
         ),
       };
     case EDIT_GUEST:
